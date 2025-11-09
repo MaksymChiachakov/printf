@@ -26,12 +26,7 @@ int	ft_printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			while (format[i] && (format[i] == '-' || format[i] == '0' || \
-				format[i] == '.' || \
-				(format[i]  >= '0' && format[i] <= '9')))
-					i++;
-			if (format[i])
-				len += ft_format_handler(format[i], args);
+			len += ft_format_handler(format, &i, args);
 		}
 		else
 			len += write(1, &format[i], 1);

@@ -12,17 +12,70 @@
 
 #include "ft_printf.h"
 
-int	ft_print_str(char *str)
+static int	ft_strlen(const char *s)
 {
-	int	i;
+	int	i = 0;
+	while (s && s[i])
+		i++;
+	return (i);
+}
 
-	i = 0;
+static void	ft_putnstr(const char *s, int n)
+{
+	int	i = 0;
+	while (s && s[i] && i < n)
+		write(1, &s[i++], 1);
+}
+
+int	ft_print_str(const char *format, int *i, va_list args)
+{
+	char	*str = va_arg(args, char *);
+	int		width = 0, prec = -1, left = 0;
+	int		len, printed = 0, j = *i;
+
 	if (!str)
 		str = "(null)";
-	while (str[i])
+
+	// флаги
+	while (format[j] == '-' || format[j] == '0')
 	{
-		write(1, &str[i], 1);
-		i++;
+		if (format[j] == '-')
+			left = 1;
+		j++;
 	}
-	return (i);
+
+	// ширина
+	while (format[j] >= '0' && format[j] <= '9')
+		width = width * 10 + (format[j++] - '0');
+
+	// точність
+	if (format[j] == '.')
+	{
+		prec = 0;
+		j++;
+		while (format[j] >= '0' && format[j] <= '9')
+			prec = prec * 10 + (format[j++] - '0');
+	}
+
+	// чекаємо 's'
+	while (format[j] && format[j] != 's')
+		j++;
+	*i = j; // оновлюємо індекс
+
+	len = ft_strlen(str);
+	if (prec >= 0 && prec < len)
+		len = prec;
+
+	if (!left)
+		while (width-- > len)
+			printed += write(1, " ", 1);
+
+	ft_putnstr(str, len);
+	printed += len;
+
+	if (left)
+		while (width-- > len)
+			printed += write(1, " ", 1);
+
+	return (printed);
 }

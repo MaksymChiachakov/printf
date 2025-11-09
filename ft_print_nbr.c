@@ -12,22 +12,36 @@
 
 #include "ft_printf.h"
 
-int	ft_print_nbr(int n)
+static void	ft_putnbr(long n)
 {
-	long	nb;
-	int		len;
 	char	c;
 
-	nb = n;
-	len = 0;
-	if (nb > 0)
+	if (n < 0)
 	{
-		len += write(1, "-", 1);
-		nb = -nb;
+		write(1, "-", 1);
+		n = -n;
 	}
-	if (nb > 10)
-		len += ft_print_nbr(nb / 10);
-	c = nb % 10 + '0';
-	len += write(1, &c, 1);
+	if (n >= 10)
+		ft_putnbr(n / 10);
+	c = (n % 10) + '0';
+	write(1, &c, 1);
+}
+
+static int	ft_numlen(long n)
+{
+	int	len = 0;
+	if (n <= 0)
+		len++;
+	while (n)
+	{
+		n /= 10;
+		len++;
+	}
 	return (len);
-}	
+}
+
+int	ft_print_nbr(int n)
+{
+	ft_putnbr((long)n);
+	return (ft_numlen((long)n));
+}

@@ -12,23 +12,24 @@
 
 #include "ft_printf.h"
 
-int	ft_format_handler(char c, va_list args)
+int	ft_format_handler(const char *format, int *i, va_list args)
 {
-	if (c == 'c')
+	if (format[*i] == 'c')
 		return (ft_print_char(va_arg(args, int)));
-	else if (c == 's')
-		return (ft_print_str(va_arg(args, char *)));
-	else if (c == 'p')
+	else if (format[*i] == 's' || format[*i] == '-' || format[*i] == '.' ||
+			(format[*i] >= '0' && format[*i] <= '9'))
+		return (ft_print_str(format, i, args));
+	else if (format[*i] == 'p')
 		return (ft_print_ptr(va_arg(args, void *)));
-	else if (c == 'd' || c == 'i')
+	else if (format[*i] == 'd' || format[*i] == 'i')
 		return (ft_print_nbr(va_arg(args, int)));
-	else if (c == 'u')
+	else if (format[*i] == 'u')
 		return (ft_print_unsigned(va_arg(args, unsigned int)));
-	else if (c == 'x')
+	else if (format[*i] == 'x')
 		return (ft_print_hex(va_arg(args, unsigned int), 0));
-	else if (c == 'X')
+	else if (format[*i] == 'X')
 		return (ft_print_hex(va_arg(args, unsigned int), 1));
-	else if (c == '%')
+	else if (format[*i] == '%')
 		return (write(1, "%", 1));
 	return (0);
 }

@@ -12,15 +12,32 @@
 
 #include "ft_printf.h"
 
-int	ft_print_unsigned(unsigned int n)
+
+static void	ft_putunbr(unsigned int n)
 {
-	int		len;
 	char	c;
 
-	len = 0;
 	if (n >= 10)
-		len += ft_print_unsigned(n / 10);
-	c = n % 10 + '0';
-	len += write(1, &c, 1);
+		ft_putunbr(n / 10);
+	c = (n % 10) + '0';
+	write(1, &c, 1);
+}
+
+static int	ft_ulen(unsigned int n)
+{
+	int	len = 0;
+	if (n == 0)
+		return (1);
+	while (n)
+	{
+		n /= 10;
+		len++;
+	}
 	return (len);
+}
+
+int	ft_print_unsigned(unsigned int n)
+{
+	ft_putunbr(n);
+	return (ft_ulen(n));
 }
