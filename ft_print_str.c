@@ -12,76 +12,35 @@
 
 #include "ft_printf.h"
 
-static int	ft_strlen(const char *s)
-{
-	int	i;
+#include "ft_printf.h"
 
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
+static int	str_len(const char *s)
+{
+	int	len;
+
+	len = 0;
+	while (s && s[len])
+		len++;
+	return (len);
 }
 
-static void	ft_putnstr(const char *s, int n)
+static void	put_nstr(const char *s, int n)
 {
-	int	i;
-
-	i = 0;
-	while (s && s[i] && i < n)
-		write(1, &s[i++], 1);
+	while (n-- > 0 && *s)
+		write(1, s++, 1);
 }
 
 int	ft_print_str(const char *format, int *i, va_list args)
 {
-	char	*str;
-	int		width, prec, left;
-	int		len, printed, j;
+	char	*s;
+	int		len;
 
-	str = va_arg(args, char *);
-	width = 0;
-	prec = -1;
-	left = 0;
-	printed = 0;
-	j = *i;
-	if (!str)
-		str = "(null)";
-
-	while (format[j] == '-' || format[j] == '0')
-	{
-		if (format[j] == '-')
-			left = 1;
-		j++;
-	}
-
-	while (format[j] >= '0' && format[j] <= '9')
-		width = width * 10 + (format[j++] - '0');
-
-	if (format[j] == '.')
-	{
-		prec = 0;
-		j++;
-		while (format[j] >= '0' && format[j] <= '9')
-			prec = prec * 10 + (format[j++] - '0');
-	}
-
-	while (format[j] && format[j] != 's')
-		j++;
-	*i = j; 
-
-	len = ft_strlen(str);
-	if (prec >= 0 && prec < len)
-		len = prec;
-
-	if (!left)
-		while (width-- > len)
-			printed += write(1, " ", 1);
-
-	ft_putnstr(str, len);
-	printed += len;
-
-	if (left)
-		while (width-- > len)
-			printed += write(1, " ", 1);
-
-	return (printed);
+	(void)format;
+	(void)i;
+	s = va_arg(args, char *);
+	if (!s)
+		s = "(null)";
+	len = str_len(s);
+	put_nstr(s, len);
+	return (len);
 }
