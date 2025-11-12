@@ -16,7 +16,7 @@ int	ft_format_handler(const char *format, int *i, va_list args)
 {
 	if (format[*i] == 'c')
 		return (ft_print_char(va_arg(args, int)));
-	else if (format[*i] == 's' || format[*i] == '-' || format[*i] == '.' ||
+	else if (format[*i] == 's' || format[*i] == '-' || format[*i] == '.' || \
 			(format[*i] >= '0' && format[*i] <= '9'))
 		return (ft_print_str(format, i, args));
 	else if (format[*i] == 'p')

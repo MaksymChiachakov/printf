@@ -12,12 +12,11 @@
 
 #include "ft_printf.h"
 
-#include "ft_printf.h"
-
 static void	ft_puthex_ptr(unsigned long n)
 {
-	char	*base = "0123456789abcdef";
+	char	*base;
 
+	base = "0123456789abcdef";
 	if (n >= 16)
 		ft_puthex_ptr(n / 16);
 	write(1, &base[n % 16], 1);
@@ -25,7 +24,9 @@ static void	ft_puthex_ptr(unsigned long n)
 
 static int	ft_hexlen_ptr(unsigned long n)
 {
-	int	len = 1;
+	int	len;
+
+	len = 1;
 	while (n >= 16)
 	{
 		n /= 16;
@@ -36,17 +37,16 @@ static int	ft_hexlen_ptr(unsigned long n)
 
 int	ft_print_ptr(void *ptr)
 {
-	unsigned long	addr = (unsigned long)ptr;
-	int	len = 0;
+	unsigned long	addr;
+	int				len;
 
+	addr = (unsigned long)ptr;
+	len = 0;
+	if (addr == 0)
+		return (write(1, "(nil)", 5));
 	write(1, "0x", 2);
 	len += 2;
-	if (addr == 0)
-		len += write(1, "0", 1);
-	else
-	{
-		ft_puthex_ptr(addr);
-		len += ft_hexlen_ptr(addr);
-	}
+	ft_puthex_ptr(addr);
+	len += ft_hexlen_ptr(addr);
 	return (len);
 }

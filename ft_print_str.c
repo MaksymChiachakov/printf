@@ -14,7 +14,9 @@
 
 static int	ft_strlen(const char *s)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	while (s && s[i])
 		i++;
 	return (i);
@@ -22,21 +24,28 @@ static int	ft_strlen(const char *s)
 
 static void	ft_putnstr(const char *s, int n)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	while (s && s[i] && i < n)
 		write(1, &s[i++], 1);
 }
 
 int	ft_print_str(const char *format, int *i, va_list args)
 {
-	char	*str = va_arg(args, char *);
-	int		width = 0, prec = -1, left = 0;
-	int		len, printed = 0, j = *i;
+	char	*str;
+	int		width, prec, left;
+	int		len, printed, j;
 
+	str = va_arg(args, char *);
+	width = 0;
+	prec = -1;
+	left = 0;
+	printed = 0;
+	j = *i;
 	if (!str)
 		str = "(null)";
 
-	// флаги
 	while (format[j] == '-' || format[j] == '0')
 	{
 		if (format[j] == '-')
@@ -44,11 +53,9 @@ int	ft_print_str(const char *format, int *i, va_list args)
 		j++;
 	}
 
-	// ширина
 	while (format[j] >= '0' && format[j] <= '9')
 		width = width * 10 + (format[j++] - '0');
 
-	// точність
 	if (format[j] == '.')
 	{
 		prec = 0;
@@ -57,10 +64,9 @@ int	ft_print_str(const char *format, int *i, va_list args)
 			prec = prec * 10 + (format[j++] - '0');
 	}
 
-	// чекаємо 's'
 	while (format[j] && format[j] != 's')
 		j++;
-	*i = j; // оновлюємо індекс
+	*i = j; 
 
 	len = ft_strlen(str);
 	if (prec >= 0 && prec < len)

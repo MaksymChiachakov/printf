@@ -27,4 +27,3 @@ int	ft_print_hex(unsigned int n, int uppercase);
 int	ft_print_ptr(void *ptr);
 
 #endif
-

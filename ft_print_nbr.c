@@ -29,7 +29,9 @@ static void	ft_putnbr(long n)
 
 static int	ft_numlen(long n)
 {
-	int	len = 0;
+	int	len;
+
+	len = 0;
 	if (n <= 0)
 		len++;
 	while (n)

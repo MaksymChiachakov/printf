@@ -12,7 +12,6 @@
 
 #include "ft_printf.h"
 
-
 static void	ft_putunbr(unsigned int n)
 {
 	char	c;
@@ -25,7 +24,9 @@ static void	ft_putunbr(unsigned int n)
 
 static int	ft_ulen(unsigned int n)
 {
-	int	len = 0;
+	int	len;
+
+	len = 0;
 	if (n == 0)
 		return (1);
 	while (n)
